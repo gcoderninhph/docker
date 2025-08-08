@@ -1324,3 +1324,8 @@
 [08/Aug/2025:11:53:56 +0000] - 400 400 - GET http localhost "/.well-known/appspecific/com.chrome.devtools.json" [Client 172.19.0.1] [Length 5] [Gzip -] [Sent-to 192.168.0.200] "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" "-"
 [08/Aug/2025:11:54:15 +0000] - 400 400 - GET http localhost "/images/favicons/favicon-16x16.png" [Client 172.19.0.1] [Length 5] [Gzip -] [Sent-to 192.168.0.200] "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" "-"
 [08/Aug/2025:11:54:21 +0000] - 200 200 - GET http localhost "/nginx/images/favicons/favicon-16x16.png" [Client 172.19.0.1] [Length 1512] [Gzip -] [Sent-to 192.168.0.200] "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" "-"
+[08/Aug/2025:12:15:12 +0000] - 101 101 - GET http 192.168.0.200 "/server/profile" [Client 172.19.0.1] [Length 72] [Gzip -] [Sent-to 192.168.0.200] "ReactorNetty/1.2.1" "-"
+[08/Aug/2025:12:15:13 +0000] - 101 101 - GET http 192.168.0.200 "/server/profile" [Client 172.19.0.1] [Length 0] [Gzip -] [Sent-to 192.168.0.200] "ReactorNetty/1.2.1" "-"
+[08/Aug/2025:12:29:13 +0000] - 101 101 - GET http 192.168.0.200 "/server/profile" [Client 172.19.0.1] [Length 28] [Gzip -] [Sent-to 192.168.0.200] "ReactorNetty/1.2.1" "-"
+[08/Aug/2025:12:29:15 +0000] - 101 101 - GET http 192.168.0.200 "/server/profile" [Client 172.19.0.1] [Length 0] [Gzip -] [Sent-to 192.168.0.200] "ReactorNetty/1.2.1" "-"
+[08/Aug/2025:12:33:35 +0000] - 101 101 - GET http 192.168.0.200 "/server/profile" [Client 172.19.0.1] [Length 8] [Gzip -] [Sent-to 192.168.0.200] "ReactorNetty/1.2.1" "-"
