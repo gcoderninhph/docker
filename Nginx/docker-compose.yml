@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: my-nginx
+    ports:
+      - "80:80"        # Map cổng 80 container ra cổng 80 host
+      - "443:443"      # Map cổng 443 nếu dùng HTTPS
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d     # Mount thư mục config
+      - ./nginx/html:/usr/share/nginx/html   # Mount thư mục chứa file web
+    restart: always
