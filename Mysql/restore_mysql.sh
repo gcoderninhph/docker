@@ -3,10 +3,6 @@
 # Tên container MySQL (trùng docker-compose.yml)
 CONTAINER_NAME="mysql_server"
 
-# Thông tin đăng nhập MySQL
-USER="root"
-PASSWORD="rootpassword"
-
 # Hỏi người dùng nhập file .sql
 read -p "Nhập đường dẫn đầy đủ hoặc tên file .sql cần restore: " SQL_FILE
 
@@ -16,7 +12,12 @@ if [ ! -f "$SQL_FILE" ]; then
   exit 1
 fi
 
-echo "⚡ Đang restore từ file: $SQL_FILE ..."
+# Hỏi thông tin đăng nhập MySQL
+read -p "Nhập MySQL user: " USER
+read -s -p "Nhập MySQL password: " PASSWORD
+echo ""   # xuống dòng cho đẹp
+
+echo "⚡ Đang restore từ file: $SQL_FILE với user: $USER ..."
 
 # Thực hiện restore
 docker exec -i $CONTAINER_NAME \
