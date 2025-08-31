@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    container_name: gitlab
+    restart: always
+    shm_size: "256m"                          # tăng shared memory để sidekiq/postgres ổn định
+    ports:
+      - "80:80"                               # HTTP
+      - "443:443"                             # HTTPS
+      - "2222:22"                             # SSH (map ra 2222 trên host)
+    volumes:
+      - ./data/etc/gitlab:/etc/gitlab             # config (omnibus)
+      - ./data/var/log/gitlab:/var/log/gitlab           # logs
+      - ./data/var/opt/gitlab:/var/opt/gitlab           # dữ liệu (repos, db, uploads…)
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url "http://gitlab.example.com"   # ❗ ĐỔI domain; dùng http tạm, cấu hình https ở bước 3
+        gitlab_rails['time_zone'] = 'Asia/Ho_Chi_Minh'
+        # Cấu hình SSH qua cổng 2222 của host
+        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+
+        # 3. Cấu hình HTTPS (nginx)
+        # external_url "https://gitlab.example.com"
+        # gitlab_rails['time_zone'] = 'Asia/Ho_Chi_Minh'
+        # gitlab_rails['gitlab_shell_ssh_port'] = 2222
+        # nginx['redirect_http_to_https'] = true
+        # letsencrypt['enable'] = true
+        # letsencrypt['contact_emails'] = ['you@example.com']  # email nhận thông báo SSL
+
