@@ -10,6 +10,7 @@ services:
       - "1480:80"                               # HTTP
       - "1443:443"                             # HTTPS
       - "1422:22"                             # SSH (map ra 2222 trên host)
+      - "1450:5050"                           # Registry
     volumes:
       - ./data/etc/gitlab:/etc/gitlab             # config (omnibus)
       - ./data/var/log/gitlab:/var/log/gitlab           # logs
@@ -20,12 +21,6 @@ services:
         gitlab_rails['time_zone'] = 'Asia/Ho_Chi_Minh'
         # Cấu hình SSH qua cổng 1422 của host
         gitlab_rails['gitlab_shell_ssh_port'] = 1422
-
-        # 3. Cấu hình HTTPS (nginx)
-        # external_url "https://gitlab.example.com"
-        # gitlab_rails['time_zone'] = 'Asia/Ho_Chi_Minh'
-        # gitlab_rails['gitlab_shell_ssh_port'] = 1422
-        # nginx['redirect_http_to_https'] = true
-        # letsencrypt['enable'] = true
-        # letsencrypt['contact_emails'] = ['you@example.com']  # email nhận thông báo SSL
-
+        registry['enable'] = true
+        registry_external_url "http://registry.example.com"
+        ## Sau khi cấu hình xong lưu ở file /etc/gitlab/gitlab.rb (Nếu muốn sửa lại config)
