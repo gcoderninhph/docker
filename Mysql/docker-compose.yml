@@ -24,7 +24,7 @@ services:
       PMA_HOST: mysql
       PMA_PORT: 3306
     ports:
-      - "8080:80"                         # Mở web UI ở http://localhost:8080
+      - "14432:80"                         # Mở web UI ở http://localhost:14432
 
 volumes:
   mysql_data:
