@@ -12,5 +12,3 @@ services:
       - ./data:/data                                  # nơi lưu dump.rdb
       - ./redis.conf:/usr/local/etc/redis/redis.conf:ro   # cấu hình RDB
 
-volumes:
-  redis_data:
