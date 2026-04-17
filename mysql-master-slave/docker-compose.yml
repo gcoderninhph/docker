@@ -1,0 +1,101 @@
+version: '3.8'
+name: server_docker
+
+services:
+#   mysql:
+#     image: mysql:8.0
+#     container_name: mysql-container
+#     restart: always
+#     environment:
+#       MYSQL_ROOT_PASSWORD: your_root_password
+#       MYSQL_DATABASE: my_database
+#       MYSQL_USER: my_user
+#       MYSQL_PASSWORD: my_password
+#     ports:
+#       - "3307:3306"
+#     volumes:
+#       - mysql_data:/var/lib/mysql
+
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   container_name: phpmyadmin-container
+  #   restart: always
+  #   environment:
+  #     PMA_HOST: mysql        
+  #     PMA_USER: root
+  #     PMA_PASSWORD: your_root_password
+  #   ports:
+  #     - "4444:80"
+  #   depends_on:
+  #     - mysql
+
+############# MySQL Master-Slave Setup #############
+  # MySQL Master
+  mysql-master:
+    # image: mysql:8.0
+    container_name: mysql-master
+    restart: always
+    build: ./master
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: product
+      # MYSQL_USER: repl
+      # MYSQL_PASSWORD: replpass
+    ports:
+      - "3406:3306"
+    volumes:
+      - master-data:/var/lib/mysql
+      - ./master/init.sql:/docker-entrypoint-initdb.d/init.sql
+      # - ./master/my.cnf:/etc/mysql/my.cnf
+
+  # MySQL Slave
+  # sửa lại địa chỉ IP của master trong slave\init.sh
+  mysql-slave:
+    # image: mysql:8.0
+    container_name: mysql-slave
+    restart: always
+    build: ./slave
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: product
+    ports:
+      - "3407:3306"
+    depends_on:
+      - mysql-master
+    volumes:
+      - slave-data:/var/lib/mysql
+      - ./slave/init.sh:/docker-entrypoint-initdb.d/init.sh
+      # - ./slave/my.cnf:/etc/mysql/my.cnf
+
+
+
+  phpmyadmin-master:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-container-master
+    restart: always
+    environment:
+      PMA_HOST: mysql-master        
+      PMA_USER: root
+      PMA_PASSWORD: rootpass
+    ports:
+      - "4445:80"
+    depends_on:
+      - mysql-master
+
+  phpmyadmin-slave:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-container-slave
+    restart: always
+    environment:
+      PMA_HOST: mysql-slave       
+      PMA_USER: root
+      PMA_PASSWORD: rootpass
+    ports:
+      - "4446:80"
+    depends_on:
+      - mysql-slave
+
+volumes:
+  master-data:
+  slave-data:
+  # mysql_data:

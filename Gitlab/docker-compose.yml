@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    container_name: gitlab
+    restart: always
+    shm_size: "256m"                          # tăng shared memory để sidekiq/postgres ổn định
+    ports:
+      - "1480:80"                               # HTTP
+      - "1443:443"                             # HTTPS
+      - "1422:22"                             # SSH (map ra 2222 trên host)
+      - "1450:5050"                           # Registry
+    volumes:
+      - ./data/etc/gitlab:/etc/gitlab             # config (omnibus)
+      - ./data/var/log/gitlab:/var/log/gitlab           # logs
+      - ./data/var/opt/gitlab:/var/opt/gitlab           # dữ liệu (repos, db, uploads…)
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url "http://gitlab.example.com"   # ❗ ĐỔI domain; dùng http tạm, cấu hình https ở bước 3
+        gitlab_rails['time_zone'] = 'Asia/Ho_Chi_Minh'
+        # Cấu hình SSH qua cổng 1422 của host
+        gitlab_rails['gitlab_shell_ssh_port'] = 1422
+        registry['enable'] = true
+        registry_external_url "http://registry.example.com"
+        registry['registry_http_addr'] = "0.0.0.0:5050"
+        ## Sau khi cấu hình xong lưu ở file /etc/gitlab/gitlab.rb (Nếu muốn sửa lại config)
